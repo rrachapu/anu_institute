@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rooted Learning — Tutoring School</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #F5EFE0;
+      --tan:      #C4A882;
+      --bark:     #6B4E2A;
+      --sage:     #7A9E7E;
+      --forest:   #3D6B4F;
+      --leaf:     #A8C5A0;
+      --dark:     #2A3C2E;
+      --text:     #3A2E1E;
+      --muted:    #7A6A55;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 68px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+    }
+    .logo-leaf {
+      width: 36px;
+      height: 36px;
+    }
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: var(--leaf);
+      letter-spacing: 0.02em;
+    }
+    .logo-text span {
+      color: var(--tan);
+    }
+
+    nav {
+      display: flex;
+      gap: 0.25rem;
+    }
+    nav button {
+      background: none;
+      border: none;
+      color: #c8bba8;
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+    }
+    nav button:hover { color: var(--leaf); background: rgba(168,197,160,0.08); }
+    nav button.active { color: var(--cream); background: var(--forest); }
+
+    /* ── PAGES ── */
+    .page { display: none; animation: fadeIn 0.35s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+    /* ── HERO (Home) ── */
+    .hero {
+      position: relative;
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, #2A3C2E 0%, #3D6B4F 55%, #5a7a45 100%);
+    }
+    .hero-leaves {
+      position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+    }
+    .hero-leaves svg {
+      position: absolute;
+      opacity: 0.07;
+    }
+    .hl1 { width: 520px; top: -80px; left: -100px; transform: rotate(-20deg); }
+    .hl2 { width: 400px; bottom: -60px; right: -80px; transform: rotate(30deg); }
+    .hl3 { width: 280px; top: 30%; right: 5%; transform: rotate(-10deg); }
+
+    .hero-content { position: relative; max-width: 720px; }
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--leaf);
+      margin-bottom: 1.2rem;
+      font-weight: 600;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: 1.4rem;
+    }
+    .hero h1 em {
+      color: var(--tan);
+      font-style: italic;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: #d4c9b8;
+      line-height: 1.75;
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      font-weight: 300;
+    }
+    .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 4px;
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+      text-decoration: none;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+    .btn-primary { background: var(--tan); color: var(--dark); }
+    .btn-outline { background: transparent; color: var(--leaf); border: 1.5px solid var(--leaf); }
+    .btn-outline:hover { background: rgba(168,197,160,0.12); }
+
+    /* stats strip */
+    .stats-strip {
+      display: flex;
+      justify-content: center;
+      gap: 3.5rem;
+      flex-wrap: wrap;
+      padding: 2.5rem 2rem;
+      background: var(--bark);
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--cream);
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tan);
+      margin-top: 0.2rem;
+    }
+
+    /* ── SECTION COMMON ── */
+    section {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 4.5rem 2rem;
+    }
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sage);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 3.5vw, 2.5rem);
+      color: var(--dark);
+      line-height: 1.2;
+      margin-bottom: 0.9rem;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 540px;
+      margin-bottom: 2.8rem;
+      font-weight: 300;
+    }
+    hr.leaf-divider {
+      border: none;
+      border-top: 2px solid var(--leaf);
+      width: 48px;
+      margin: 0 0 2.4rem;
+    }
+
+    /* ── PROGRAMS ── */
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .program-card {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e0d8cc;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .program-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(61,107,79,0.12); }
+    .card-stripe { height: 6px; }
+    .stripe-green { background: linear-gradient(90deg, var(--forest), var(--sage)); }
+    .stripe-tan   { background: linear-gradient(90deg, var(--bark), var(--tan)); }
+    .stripe-leaf  { background: linear-gradient(90deg, var(--sage), var(--leaf)); }
+    .card-body { padding: 1.5rem 1.6rem 1.8rem; }
+    .card-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+    .card-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.2rem;
+    }
+    .tag {
+      font-size: 0.73rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+    }
+    .tag-grade { background: #e8f0e9; color: var(--forest); }
+    .tag-size  { background: #f0e8d8; color: var(--bark); }
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ede5d8;
+    }
+    .price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--forest);
+    }
+    .price-period { font-size: 0.82rem; color: var(--muted); }
+
+    /* subjects list */
+    .subjects { list-style: none; margin: 0.5rem 0 1rem; }
+    .subjects li {
+      font-size: 0.85rem;
+      color: var(--text);
+      padding: 0.2rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .subjects li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--sage); flex-shrink: 0; }
+
+    /* pricing note */
+    .pricing-note {
+      background: linear-gradient(135deg, #eef5ee, #f5efe0);
+      border-left: 4px solid var(--sage);
+      border-radius: 0 6px 6px 0;
+      padding: 1.2rem 1.5rem;
+      margin-top: 2.5rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .pricing-note strong { color: var(--forest); }
+
+    /* ── SCHEDULE / FORM ── */
+    .schedule-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+    @media (max-width: 720px) { .schedule-wrap { grid-template-columns: 1fr; } }
+
+    .schedule-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--dark);
+      margin-bottom: 0.7rem;
+    }
+    .info-block { margin-bottom: 2rem; }
+    .info-block p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; font-weight: 300; }
+    .info-block ul { list-style: none; margin-top: 0.6rem; }
+    .info-block ul li {
+      font-size: 0.87rem;
+      color: var(--text);
+      padding: 0.3rem 0;
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+    .info-block ul li span.dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--sage); flex-shrink: 0; margin-top: 0.4rem;
+    }
+
+    /* Form */
+    .form-card {
+      background: #fff;
+      border: 1px solid #e0d8cc;
+      border-radius: 10px;
+      padding: 2.2rem 2rem;
+      box-shadow: 0 4px 24px rgba(61,107,79,0.07);
+    }
+    .form-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+    }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--bark);
+      margin-bottom: 0.4rem;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border: 1.5px solid #d8cfc2;
+      border-radius: 5px;
+      background: var(--cream);
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.92rem;
+      color: var(--text);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--sage); background: #fff; }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-submit {
+      width: 100%;
+      margin-top: 0.5rem;
+      background: var(--forest);
+      color: var(--cream);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 0.85rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Source Serif 4', serif;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .form-submit:hover { background: var(--dark); transform: translateY(-1px); }
+
+    .form-note {
+      font-size: 0.77rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 0.9rem;
+    }
+    .form-note a { color: var(--sage); text-decoration: underline; }
+
+    /* success banner */
+    .success-banner {
+      display: none;
+      background: #e8f5e9;
+      border: 1.5px solid var(--sage);
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.2rem;
+      font-size: 0.92rem;
+      color: var(--forest);
+      text-align: center;
+    }
+
+    /* ── MISSION ── */
+    .mission-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    @media (max-width: 700px) { .mission-wrap { grid-template-columns: 1fr; gap: 2rem; } }
+
+    .mission-visual {
+      position: relative;
+      aspect-ratio: 1;
+      max-width: 420px;
+    }
+    .mission-bg-circle {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, var(--leaf) 0%, var(--forest) 100%);
+      opacity: 0.18;
+    }
+    .mission-quote-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    .mission-quote {
+      background: #fff;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(61,107,79,0.13);
+      max-width: 340px;
+      text-align: center;
+    }
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      color: var(--leaf);
+      line-height: 0.6;
+      margin-bottom: 0.8rem;
+    }
+    .mission-quote p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    .mission-quote cite {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.9rem;
+      font-style: normal;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mission-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--dark);
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+    .mission-text p {
+      font-size: 0.97rem;
+      color: var(--muted);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+    .value-list { list-style: none; margin-top: 1.5rem; }
+    .value-item {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.1rem;
+      align-items: flex-start;
+    }
+    .value-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: #e8f0e9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .value-item h4 { font-size: 0.95rem; color: var(--dark); margin-bottom: 0.15rem; }
+    .value-item p  { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin: 0; font-weight: 300; }
+
+    /* team strip */
+    .team-strip {
+      background: linear-gradient(135deg, var(--dark) 0%, #2d4a35 100%);
+      padding: 3.5rem 2rem;
+      text-align: center;
+    }
+    .team-strip h2 {
+      font-family: 'Playfair Display', serif;
+      color: var(--cream);
+      font-size: 1.8rem;
+      margin-bottom: 0.6rem;
+    }
+    .team-strip p { color: #bab09e; font-size: 0.95rem; max-width: 480px; margin: 0 auto 2rem; font-weight: 300; }
+    .tutors-grid {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .tutor-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 1.5rem 1.2rem;
+      width: 180px;
+      text-align: center;
+    }
+    .tutor-avatar {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: var(--sage);
+      margin: 0 auto 0.7rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+    }
+    .tutor-name { font-family: 'Playfair Display', serif; color: var(--cream); font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .tutor-subject { font-size: 0.75rem; color: var(--tan); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      color: #8a9e8f;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+    footer a { color: var(--leaf); text-decoration: none; }
+
+    /* DATA SECTION NOTE */
+    .data-note {
+      background: #fff8ee;
+      border: 1px solid var(--tan);
+      border-radius: 8px;
+      padding: 1.5rem 1.8rem;
+      margin: 0 2rem 1rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .data-note h4 { color: var(--bark); font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .data-note p { font-size: 0.87rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+    .data-note p strong { color: var(--bark); }
+
+    @media (max-width: 600px) {
+      header { padding: 0 1rem; }
+      nav button { padding: 0.4rem 0.7rem; font-size: 0.78rem; }
+      .logo-text { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <a class="logo" href="#" onclick="showPage('home')">
+    <svg class="logo-leaf" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 4C10 4 5 12 5 20c0 6 4 10 13 10 2-4 3-10 0-16 5 3 10 10 9 16 3-1 4-4 4-10 0-8-5-16-13-16z" fill="#A8C5A0"/>
+      <path d="M18 20 Q15 28 13 30" stroke="#7A9E7E" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span class="logo-text">Rooted <span>Learning</span></span>
+  </a>
+  <nav>
+    <button class="active" onclick="showPage('home')">Home</button>
+    <button onclick="showPage('programs')">Programs</button>
+    <button onclick="showPage('schedule')">Schedule</button>
+    <button onclick="showPage('mission')">Our Mission</button>
+  </nav>
+</header>
+
+<!-- ── HOME ── -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-leaves">
+      <svg class="hl1" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 10C40 10 10 80 10 150s40 130 90 130c10-30 15-80 0-130 30 20 60 70 55 130 20-10 35-50 35-130C190 80 160 10 100 10z" fill="white"/>
+      </svg>
+      <svg class="hl2" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 10C40 10 10 80 10 150s40 130 90 130c10-30 15-80 0-130 30 20 60 70 55 130 20-10 35-50 35-130C190 80 160 10 100 10z" fill="white"/>
+      </svg>
+      <svg class="hl3" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 10C40 10 10 80 10 150s40 130 90 130c10-30 15-80 0-130 30 20 60 70 55 130 20-10 35-50 35-130C190 80 160 10 100 10z" fill="white"/>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Personalized · Evidence-Based · Rooted in Care</p>
+      <h1>Where every student learns to <em>grow</em></h1>
+      <p>Rooted Learning pairs students with expert tutors in small, nurturing sessions. We meet every learner where they are — and help them reach further than they thought possible.</p>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="showPage('schedule')">Book a Free Consultation</button>
+        <button class="btn btn-outline" onclick="showPage('programs')">View Programs</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stat"><div class="stat-num">97%</div><div class="stat-label">Student Satisfaction</div></div>
+    <div class="stat"><div class="stat-num">8–1</div><div class="stat-label">Max Student Ratio</div></div>
+    <div class="stat"><div class="stat-num">K–12</div><div class="stat-label">Grade Levels Served</div></div>
+    <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Subjects Available</div></div>
+  </div>
+
+  <section>
+    <div class="section-label">How it works</div>
+    <div class="section-title">Simple steps to get started</div>
+    <hr class="leaf-divider"/>
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:1.8rem; margin-top:1rem;">
+      <div style="text-align:center; padding:1.5rem 1rem;">
+        <div style="font-size:2.2rem; margin-bottom:0.6rem;">🌱</div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--dark); margin-bottom:0.4rem;">1. Free Consultation</div>
+        <p style="font-size:0.87rem; color:var(--muted); line-height:1.65; font-weight:300;">We learn your student's goals, challenges, and learning style.</p>
+      </div>
+      <div style="text-align:center; padding:1.5rem 1rem;">
+        <div style="font-size:2.2rem; margin-bottom:0.6rem;">📋</div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--dark); margin-bottom:0.4rem;">2. Custom Plan</div>
+        <p style="font-size:0.87rem; color:var(--muted); line-height:1.65; font-weight:300;">We match your student with the right tutor and program level.</p>
+      </div>
+      <div style="text-align:center; padding:1.5rem 1rem;">
+        <div style="font-size:2.2rem; margin-bottom:0.6rem;">📚</div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--dark); margin-bottom:0.4rem;">3. Sessions Begin</div>
+        <p style="font-size:0.87rem; color:var(--muted); line-height:1.65; font-weight:300;">Weekly in-person or virtual sessions, tracked with progress reports.</p>
+      </div>
+      <div style="text-align:center; padding:1.5rem 1rem;">
+        <div style="font-size:2.2rem; margin-bottom:0.6rem;">🌳</div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--dark); margin-bottom:0.4rem;">4. Watch Them Grow</div>
+        <p style="font-size:0.87rem; color:var(--muted); line-height:1.65; font-weight:300;">We adjust and evolve the plan as your student builds confidence.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ── PROGRAMS ── -->
+<div id="page-programs" class="page">
+  <section>
+    <div class="section-label">Our Programs</div>
+    <div class="section-title">Find the right fit for your learner</div>
+    <hr class="leaf-divider"/>
+    <p class="section-sub">From foundational literacy to advanced exam prep — every program is led by credentialed educators committed to student-centered learning.</p>
+
+    <div class="programs-grid">
+
+      <div class="program-card">
+        <div class="card-stripe stripe-leaf"></div>
+        <div class="card-body">
+          <div class="card-icon">🌱</div>
+          <div class="card-title">Elementary Foundations</div>
+          <div class="card-meta">
+            <span class="tag tag-grade">Grades K–5</span>
+            <span class="tag tag-size">Groups of 2–4</span>
+          </div>
+          <p class="card-desc">Build the essential literacy, numeracy, and study habits that set students up for lasting success.</p>
+          <ul class="subjects">
+            <li>Reading & Phonics</li>
+            <li>Basic Math & Number Sense</li>
+            <li>Writing & Storytelling</li>
+            <li>Study Habits & Organization</li>
+          </ul>
+          <div class="price-row">
+            <span class="price">$35</span>
+            <span class="price-period">/ session (50 min)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="program-card">
+        <div class="card-stripe stripe-green"></div>
+        <div class="card-body">
+          <div class="card-icon">📘</div>
+          <div class="card-title">Middle School Accelerator</div>
+          <div class="card-meta">
+            <span class="tag tag-grade">Grades 6–8</span>
+            <span class="tag tag-size">Groups of 2–3</span>
+          </div>
+          <p class="card-desc">Navigate the transition years with confidence. We focus on critical thinking and academic independence.</p>
+          <ul class="subjects">
+            <li>Pre-Algebra & Algebra I</li>
+            <li>Essay Writing & Grammar</li>
+            <li>Earth & Life Sciences</li>
+            <li>Reading Comprehension</li>
+          </ul>
+          <div class="price-row">
+            <span class="price">$45</span>
+            <span class="price-period">/ session (60 min)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="program-card">
+        <div class="card-stripe stripe-tan"></div>
+        <div class="card-body">
+          <div class="card-icon">🎓</div>
+          <div class="card-title">High School Honors</div>
+          <div class="card-meta">
+            <span class="tag tag-grade">Grades 9–12</span>
+            <span class="tag tag-size">1-on-1 or pairs</span>
+          </div>
+          <p class="card-desc">Tackle rigorous coursework and standardized testing with tutors who have mastered the material at the university level.</p>
+          <ul class="subjects">
+            <li>Algebra II, Pre-Calc, Calculus</li>
+            <li>AP & Honors Sciences</li>
+            <li>SAT / ACT Prep</li>
+            <li>College Essay Coaching</li>
+          </ul>
+          <div class="price-row">
+            <span class="price">$65</span>
+            <span class="price-period">/ session (60 min)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="program-card">
+        <div class="card-stripe stripe-green"></div>
+        <div class="card-body">
+          <div class="card-icon">🧪</div>
+          <div class="card-title">STEM Intensive</div>
+          <div class="card-meta">
+            <span class="tag tag-grade">Grades 6–12</span>
+            <span class="tag tag-size">Small groups</span>
+          </div>
+          <p class="card-desc">Hands-on problem-solving and conceptual depth in mathematics and the sciences.</p>
+          <ul class="subjects">
+            <li>Physics & Chemistry</li>
+            <li>Statistics & Data</li>
+            <li>Coding Fundamentals (Python)</li>
+            <li>Competition Math</li>
+          </ul>
+          <div class="price-row">
+            <span class="price">$55</span>
+            <span class="price-period">/ session (75 min)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="program-card">
+        <div class="card-stripe stripe-leaf"></div>
+        <div class="card-body">
+          <div class="card-icon">✍️</div>
+          <div class="card-title">Writing Workshop</div>
+          <div class="card-meta">
+            <span class="tag tag-grade">All grades</span>
+            <span class="tag tag-size">Groups of 3–5</span>
+          </div>
+          <p class="card-desc">From creative storytelling to persuasive essays — we help students find their voice and write with purpose.</p>
+          <ul class="subjects">
+            <li>Narrative & Creative Writing</li>
+            <li>Research Paper Skills</li>
+            <li>AP Language & Composition</li>
+            <li>College Application Essays</li>
+          </ul>
+          <div class="price-row">
+            <span class="price">$40</span>
+            <span class="price-period">/ session (60 min)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="program-card">
+        <div class="card-stripe stripe-tan"></div>
+        <div class="card-body">
+          <div class="card-icon">🌍</div>
+          <div class="card-title">Language Arts & ESL</div>
+          <div class="card-meta">
+            <span class="tag tag-grade">All grades</span>
+            <span class="tag tag-size">1-on-1</span>
+          </div>
+          <p class="card-desc">Supporting multilingual learners with targeted reading, writing, and academic vocabulary development.</p>
+          <ul class="subjects">
+            <li>English as a Second Language</li>
+            <li>Academic Vocabulary</li>
+            <li>Reading Fluency</li>
+            <li>Standardized Test Language</li>
+          </ul>
+          <div class="price-row">
+            <span class="price">$50</span>
+            <span class="price-period">/ session (60 min)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pricing-note">
+      <strong>Monthly packages available:</strong> Save 10% with a 4-session monthly package, or 15% with an 8-session package. Sibling discounts of 10% apply automatically. Financial aid options are available — please ask during your consultation. All prices are per session; no registration fee.
+    </div>
+  </section>
+</div>
+
+<!-- ── SCHEDULE ── -->
+<div id="page-schedule" class="page">
+  <section>
+    <div class="section-label">Book a Session</div>
+    <div class="section-title">Let's find your student a spot</div>
+    <hr class="leaf-divider"/>
+
+    <div class="schedule-wrap">
+      <div class="schedule-info">
+        <div class="info-block">
+          <h3>📅 Session Times</h3>
+          <p>We offer sessions throughout the week to fit busy family schedules.</p>
+          <ul>
+            <li><span class="dot"></span>Monday – Friday: 3:00 PM – 8:00 PM</li>
+            <li><span class="dot"></span>Saturday: 9:00 AM – 2:00 PM</li>
+            <li><span class="dot"></span>Online sessions available any day</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <h3>📍 Location</h3>
+          <p>In-person sessions at our learning center, or join us online from anywhere.</p>
+          <ul>
+            <li><span class="dot"></span>123 Elm Grove Lane, Suite 201</li>
+            <li><span class="dot"></span>Zoom / Google Meet for virtual</li>
+            <li><span class="dot"></span>Free parking available</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <h3>💬 What happens next?</h3>
+          <p>After you submit this form, a member of our team will reach out within 24 hours to confirm your session and match your student with the best tutor.</p>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3>Request a Free Consultation</h3>
+        <div class="success-banner" id="success-banner">
+          ✅ Thank you! We'll be in touch within 24 hours to confirm your consultation.
+        </div>
+        <form id="schedule-form" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Parent / Guardian Name</label>
+              <input type="text" placeholder="Jane Smith" required/>
+            </div>
+            <div class="form-group">
+              <label>Student Name</label>
+              <input type="text" placeholder="Alex Smith" required/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" placeholder="jane@email.com" required/>
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" placeholder="(555) 000-0000"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Student's Grade</label>
+              <select required>
+                <option value="" disabled selected>Select grade</option>
+                <option>Kindergarten</option>
+                <option>1st Grade</option><option>2nd Grade</option><option>3rd Grade</option>
+                <option>4th Grade</option><option>5th Grade</option><option>6th Grade</option>
+                <option>7th Grade</option><option>8th Grade</option><option>9th Grade</option>
+                <option>10th Grade</option><option>11th Grade</option><option>12th Grade</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Program Interest</label>
+              <select>
+                <option value="" disabled selected>Select program</option>
+                <option>Elementary Foundations</option>
+                <option>Middle School Accelerator</option>
+                <option>High School Honors</option>
+                <option>STEM Intensive</option>
+                <option>Writing Workshop</option>
+                <option>Language Arts & ESL</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Preferred Session Format</label>
+            <select>
+              <option>In-Person</option>
+              <option>Online (Virtual)</option>
+              <option>Either works for us</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tell us about your student's goals</label>
+            <textarea placeholder="What subjects need support? Any specific goals for this semester? Anything else we should know?"></textarea>
+          </div>
+          <button type="submit" class="form-submit">Submit Request →</button>
+          <p class="form-note">Your information is private and never shared. Questions? <a href="mailto:hello@rootedlearning.com">Email us</a>.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div class="data-note">
+    <h4>🗂 Developer Note — Data Routing</h4>
+    <p>This form can be wired to a data backend with no code changes needed on the front end. <strong>Recommended approach:</strong> Use <strong>Tally.so</strong> or <strong>Jotform</strong> (embed their iframe here) — both connect natively to Google Sheets, Airtable, or Notion for easy admin access. Alternatively, use a lightweight <strong>Google Apps Script</strong> to POST form data directly to a Google Sheet. For larger volume, a <strong>Supabase (PostgreSQL)</strong> backend with a simple API endpoint is a clean upgrade path. Ask your developer to hook up the form's <code>onsubmit</code> to whichever service you choose.</p>
+  </div>
+</div>
+
+<!-- ── MISSION ── -->
+<div id="page-mission" class="page">
+  <section>
+    <div class="mission-wrap">
+      <div class="mission-visual">
+        <div class="mission-bg-circle"></div>
+        <div class="mission-quote-wrap">
+          <div class="mission-quote">
+            <div class="quote-mark">"</div>
+            <p>Education is not the filling of a pail, but the lighting of a fire.</p>
+            <cite>— W.B. Yeats</cite>
+          </div>
+        </div>
+      </div>
+
+      <div class="mission-text">
+        <div class="section-label">Our Mission</div>
+        <h2>Learning that takes root and lasts</h2>
+        <hr class="leaf-divider"/>
+        <p>At Rooted Learning, we believe every student has a natural capacity for growth — they just need the right environment to flourish. Too often, classrooms move at a pace that leaves students behind or unchallenged. We exist to change that.</p>
+        <p>Our approach is built on deep relationships, not quick fixes. We take the time to understand each learner's unique strengths, gaps, and motivations, then design a path that meets them exactly where they are.</p>
+        <p>We measure success not just in grades, but in confidence — the moment a student realizes they can figure it out on their own.</p>
+
+        <ul class="value-list">
+          <li class="value-item">
+            <div class="value-icon">🌱</div>
+            <div>
+              <h4>Growth Mindset First</h4>
+              <p>We teach students that ability is built, not born. Every mistake is a learning opportunity.</p>
+            </div>
+          </li>
+          <li class="value-item">
+            <div class="value-icon">🤝</div>
+            <div>
+              <h4>Relationships Over Transactions</h4>
+              <p>Our tutors invest in knowing each student — their interests, their fears, their best ways of learning.</p>
+            </div>
+          </li>
+          <li class="value-item">
+            <div class="value-icon">📊</div>
+            <div>
+              <h4>Evidence-Based Methods</h4>
+              <p>We use what the research shows works: spaced repetition, retrieval practice, and targeted feedback.</p>
+            </div>
+          </li>
+          <li class="value-item">
+            <div class="value-icon">🏡</div>
+            <div>
+              <h4>Community & Belonging</h4>
+              <p>Every student who walks through our door is welcomed, valued, and never made to feel behind.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="team-strip">
+    <h2>Meet Our Tutors</h2>
+    <p>Our educators hold degrees in their subject areas and are trained in learning science and differentiated instruction.</p>
+    <div class="tutors-grid">
+      <div class="tutor-card">
+        <div class="tutor-avatar">👩‍🏫</div>
+        <div class="tutor-name">Ms. Rivera</div>
+        <div class="tutor-subject">Math · Grades 3–8</div>
+      </div>
+      <div class="tutor-card">
+        <div class="tutor-avatar">👨‍🔬</div>
+        <div class="tutor-name">Mr. Okafor</div>
+        <div class="tutor-subject">STEM · Grades 6–12</div>
+      </div>
+      <div class="tutor-card">
+        <div class="tutor-avatar">👩‍💻</div>
+        <div class="tutor-name">Ms. Chen</div>
+        <div class="tutor-subject">Writing · All Grades</div>
+      </div>
+      <div class="tutor-card">
+        <div class="tutor-avatar">👨‍🏫</div>
+        <div class="tutor-name">Mr. Patel</div>
+        <div class="tutor-subject">SAT/ACT · Grades 9–12</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p><strong style="color:var(--leaf)">Rooted Learning Tutoring School</strong></p>
+  <p>123 Elm Grove Lane, Suite 201 &nbsp;·&nbsp; <a href="mailto:hello@rootedlearning.com">hello@rootedlearning.com</a> &nbsp;·&nbsp; (555) 123-4567</p>
+  <p style="margin-top:0.5rem; font-size:0.75rem; color:#5a6e5e;">© 2025 Rooted Learning. All rights reserved. Template — customize with your real logo, content, and contact info.</p>
+</footer>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    const btns = document.querySelectorAll('nav button');
+    const map = { home: 0, programs: 1, schedule: 2, mission: 3 };
+    btns[map[id]].classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const banner = document.getElementById('success-banner');
+    banner.style.display = 'block';
+    e.target.style.display = 'none';
+    // TODO: Wire to your backend here — Google Apps Script, Tally, Jotform, Supabase, etc.
+  }
+</script>
+</body>
+</html>
